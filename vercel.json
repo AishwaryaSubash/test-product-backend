@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "env": {
+    "DATABASE_URL": "mongodb+srv://aishwarya:aishwarya@onlinestore.2oqhon6.mongodb.net/TestProducts?retryWrites=true&w=majority"
+  },
+  "name": "product-backend",
+  "builds": [
+    {
+      "src": "src/index.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
+      },
+      "src": "/(.*)",
+      "dest": "src/index.ts"
+    }
+  ]
+}
