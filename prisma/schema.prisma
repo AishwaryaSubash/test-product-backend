@@ -8,14 +8,14 @@ datasource db {
 }
 
 model User {
-    id       Int    @id @default(0) @map("_id")
+    id       String @id @default(auto()) @map("_id") @db.ObjectId
     username String
     email    String
     password String
 }
 
 model Product {
-    id          Int    @id @default(0) @map("_id")
+    id          String @id @default(auto()) @map("_id") @db.ObjectId
     productname String
     productdesc String
     status      String
