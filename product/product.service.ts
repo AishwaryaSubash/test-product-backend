@@ -1,11 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import { client } from "../prisma-client/prisma";
 import { AddProductDto, EditProductDto } from "./dto/product.dto";
-
-const client = new PrismaClient();
 
 async function getAllProducts() {
   const products = await client.product.findMany();
-  console.log(products);
+  // console.log(products);
   return products;
 }
 
@@ -19,7 +17,8 @@ async function addProduct(productData: AddProductDto) {
         status: productData.status,
       },
     });
-    console.log(product);
+    // console.log(product);
+    return product;
   } catch (e) {
     console.log(e);
   }
@@ -27,7 +26,6 @@ async function addProduct(productData: AddProductDto) {
 
 async function editProduct(productData: EditProductDto) {
   try {
-    console.log(productData.price);
     const edited = await client.product.update({
       where: {
         id: productData.id,
@@ -39,7 +37,8 @@ async function editProduct(productData: EditProductDto) {
         status: productData.status,
       },
     });
-    console.log(edited);
+    // console.log(edited);
+    return edited;
   } catch (e) {
     console.log(e);
   }

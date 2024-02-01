@@ -7,6 +7,7 @@ productRouter.get("/", async (req, res) => {
   const products = await getAllProducts();
   res.status(201).json(products);
 });
+
 productRouter.post("/add", async (req, res) => {
   const product = await addProduct(req.body);
   res.status(201).json(product);
