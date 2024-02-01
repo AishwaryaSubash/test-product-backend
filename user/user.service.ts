@@ -19,8 +19,8 @@ async function signupUser(userData: SignupUserDto) {
         username: true,
       },
     });
-    console.log(user);
-    return user;
+    // console.log(user);
+    return { created: true, user: user };
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
@@ -35,9 +35,18 @@ async function signupUser(userData: SignupUserDto) {
 
 async function signinUser(userData: SigninUserDto) {
   try {
+    const userId = await client.user.findFirst({
+      where: {
+        username: userData.username,
+      },
+      select: {
+        id: true,
+      },
+    });
+    console.log(userId?.id);
     const user = await client.user.findUniqueOrThrow({
       where: {
-        id: userData.id,
+        id: userId?.id,
       },
       select: {
         id: true,
@@ -46,23 +55,34 @@ async function signinUser(userData: SigninUserDto) {
       },
     });
     let verified: boolean = false;
-    if (await argon2.verify(user.password, userData.password)) {
-      verified = true;
+    if (userData.username === user.username) {
+      if (await argon2.verify(user.password, userData.password)) {
+        verified = true;
+      }
+      const token = jwt.sign(
+        { id: user.id, username: user.username },
+        process.env.JWT_SECRET_KEY
+      );
+      const { password, ...userWithoutPassword } = user;
+      //   console.log(userWithoutPassword);
+      return { verified: verified, token: token, user: userWithoutPassword };
+    } else {
+      return {
+        verified: verified,
+        message: "Username not found!! Create an account",
+      };
     }
-    const token = jwt.sign(
-      { id: user.id, username: user.username },
-      process.env.JWT_SECRET_KEY
-    );
-    const { password, ...userWithoutPassword } = user;
-    //   console.log(userWithoutPassword);
-    return { token: token, user: userWithoutPassword, verified: verified };
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
-        return { created: false, message: "Username already exists" };
+        return { verified: false, message: "Username already exists" };
+      }
+      if (e.code === "P2023") {
+        console.log(e);
+        return { verified: false, message: "Invalid credentials" };
       }
     } else {
-      return { created: false, message: e };
+      return { verified: false, message: e };
     }
     console.log(e);
   }

@@ -5,7 +5,6 @@ export interface SignupUserDto {
 }
 
 export interface SigninUserDto {
-  id: string;
   username: string;
   password: string;
 }

@@ -28,4 +28,3 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
 };
 
 module.exports = verifyToken;
-// export  verifyToken;
