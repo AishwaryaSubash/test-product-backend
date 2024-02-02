@@ -20,7 +20,7 @@ async function signupUser(userData: SignupUserDto) {
       },
     });
     // console.log(user);
-    return { created: true, user: user };
+    return { created: true, user: user, message: "User creation successful!!" };
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
@@ -43,6 +43,13 @@ async function signinUser(userData: SigninUserDto) {
         id: true,
       },
     });
+    let verified: boolean = false;
+    if (!userId) {
+      return {
+        verified: verified,
+        message: "Username not found!! Create an account",
+      };
+    }
     console.log(userId?.id);
     const user = await client.user.findUniqueOrThrow({
       where: {
@@ -54,18 +61,24 @@ async function signinUser(userData: SigninUserDto) {
         password: true,
       },
     });
-    let verified: boolean = false;
     if (userData.username === user.username) {
       if (await argon2.verify(user.password, userData.password)) {
         verified = true;
+        const token = jwt.sign(
+          { id: user.id, username: user.username },
+          process.env.JWT_SECRET_KEY
+        );
+        const { password, ...userWithoutPassword } = user;
+        //   console.log(userWithoutPassword);
+        return {
+          verified: verified,
+          token: token,
+          user: userWithoutPassword,
+          message: "User signin successful!!",
+        };
+      } else {
+        return { verified: verified, message: "Invalid password" };
       }
-      const token = jwt.sign(
-        { id: user.id, username: user.username },
-        process.env.JWT_SECRET_KEY
-      );
-      const { password, ...userWithoutPassword } = user;
-      //   console.log(userWithoutPassword);
-      return { verified: verified, token: token, user: userWithoutPassword };
     } else {
       return {
         verified: verified,
