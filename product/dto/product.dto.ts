@@ -12,3 +12,7 @@ export interface EditProductDto {
   status: string;
   price: number;
 }
+
+export interface GetOneProductDto {
+  id: string;
+}

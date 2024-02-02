@@ -1,5 +1,10 @@
 import express, { Router, Request, Response } from "express";
-import { getAllProducts, addProduct, editProduct } from "./product.service";
+import {
+  getAllProducts,
+  addProduct,
+  editProduct,
+  getOneProduct,
+} from "./product.service";
 // import verifyToken from "../middlewares/auth";
 const verifyToken = require("../middlewares/auth");
 const productRouter: Router = express.Router();
@@ -19,6 +24,15 @@ productRouter.post(
   verifyToken,
   async (req: Request, res: Response) => {
     const product = await editProduct(req.body);
+    res.status(201).json(product);
+  }
+);
+
+productRouter.post(
+  "/getOneProduct",
+  verifyToken,
+  async (req: Request, res: Response) => {
+    const product = await getOneProduct(req.body);
     res.status(201).json(product);
   }
 );
