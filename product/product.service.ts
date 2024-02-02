@@ -51,6 +51,7 @@ async function addProduct(productData: AddProductDto) {
     // return product;
     return { added: true, product: product };
   } catch (e) {
+    console.log(e);
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       return { added: false, message: e };
     } else {
@@ -76,6 +77,7 @@ async function editProduct(productData: EditProductDto) {
     // return edited;
     return { edited: true, product: edited };
   } catch (e) {
+    console.log(e);
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       return { edited: false, message: e };
     } else {
