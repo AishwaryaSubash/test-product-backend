@@ -9,7 +9,6 @@ import {
 async function getAllProducts() {
   try {
     const products = await client.product.findMany();
-    // console.log(products);
     return { fetched: true, products: products };
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -47,8 +46,6 @@ async function addProduct(productData: AddProductDto) {
         status: productData.status,
       },
     });
-    // console.log(product);
-    // return product;
     return { added: true, product: product };
   } catch (e) {
     console.log(e);
@@ -73,8 +70,6 @@ async function editProduct(productData: EditProductDto) {
         status: productData.status,
       },
     });
-    // console.log(edited);
-    // return edited;
     return { edited: true, product: edited };
   } catch (e) {
     console.log(e);

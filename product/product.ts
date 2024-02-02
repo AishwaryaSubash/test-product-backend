@@ -5,7 +5,6 @@ import {
   editProduct,
   getOneProduct,
 } from "./product.service";
-// import verifyToken from "../middlewares/auth";
 const verifyToken = require("../middlewares/auth");
 const productRouter: Router = express.Router();
 
