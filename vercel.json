@@ -4,12 +4,6 @@
     "DATABASE_URL": "mongodb+srv://aishwarya:aishwarya@onlinestore.2oqhon6.mongodb.net/TestProducts?retryWrites=true&w=majority"
   },
   "name": "test-product-backend",
-  "builds": [
-    {
-      "src": "index.ts",
-      "use": "@vercel/node"
-    }
-  ],
   "routes": [
     {
       "headers": {
