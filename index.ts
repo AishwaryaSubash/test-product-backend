@@ -2,9 +2,11 @@ import express from "express";
 import cors from "cors";
 import productRouter from "./product/product";
 import userRouter from "./user/user";
+import dotenv from "dotenv";
 
 const app = express();
 const router = express.Router();
+dotenv.config();
 
 app.use(
   cors({
