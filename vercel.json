@@ -6,7 +6,7 @@
   "name": "test-product-backend",
   "builds": [
     {
-      "src": "src/index.ts",
+      "src": "index.ts",
       "use": "@vercel/node"
     }
   ],
@@ -17,7 +17,7 @@
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
       },
       "src": "/(.*)",
-      "dest": "src/index.ts"
+      "dest": "index.ts"
     }
   ]
 }

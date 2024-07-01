@@ -1,7 +1,7 @@
 import * as argon2 from "argon2";
 import { client } from "../prisma-client/prisma";
 import { SigninUserDto, SignupUserDto } from "./dto/user.dto";
-import { Prisma } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const jwt = require("jsonwebtoken");
 
@@ -21,10 +21,10 @@ async function signupUser(userData: SignupUserDto) {
     });
     return { created: true, user: user, message: "User creation successful!!" };
   } catch (e) {
-    if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      if (e.code === "P2002") {
-        return { created: false, message: "Username already exists" };
-      }
+    if (e instanceof client.PrismaClientKnownRequestError) {
+      // if (e.name === "P2002") {
+      return { created: false, message: "Username already exists" };
+      // }
     } else {
       return { created: false, message: e };
     }
@@ -84,14 +84,14 @@ async function signinUser(userData: SigninUserDto) {
       };
     }
   } catch (e) {
-    if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      if (e.code === "P2002") {
-        return { verified: false, message: "Username already exists" };
-      }
-      if (e.code === "P2023") {
-        console.log(e);
-        return { verified: false, message: "Invalid credentials" };
-      }
+    if (e instanceof client.PrismaClientKnownRequestError) {
+      // if (e.code === "P2002") {
+      return { verified: false, message: "Username already exists" };
+      // }
+      // if (e.code === "P2023") {
+      // console.log(e);
+      // return { verified: false, message: "Invalid credentials" };
+      // }
     } else {
       return { verified: false, message: e };
     }
