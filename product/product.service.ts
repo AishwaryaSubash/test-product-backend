@@ -11,7 +11,7 @@ async function getAllProducts() {
     const products = await client.product.findMany();
     return { fetched: true, products: products };
   } catch (e) {
-    if (e instanceof client.PrismaClientKnownRequestError) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
       return { fetched: false, message: e };
     } else {
       return { fetched: false, message: e };
@@ -28,7 +28,7 @@ async function getOneProduct(productData: GetOneProductDto) {
     });
     return { fetched: true, product: product };
   } catch (e) {
-    if (e instanceof client.PrismaClientKnownRequestError) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
       return { fetched: false, message: e };
     } else {
       return { fetched: false, message: e };
@@ -49,7 +49,7 @@ async function addProduct(productData: AddProductDto) {
     return { added: true, product: product };
   } catch (e) {
     console.log(e);
-    if (e instanceof client.PrismaClientKnownRequestError) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
       return { added: false, message: e };
     } else {
       return { added: false, message: e };
@@ -73,7 +73,7 @@ async function editProduct(productData: EditProductDto) {
     return { edited: true, product: edited };
   } catch (e) {
     console.log(e);
-    if (e instanceof client.PrismaClientKnownRequestError) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
       return { edited: false, message: e };
     } else {
       return { edited: false, message: e };
