@@ -3,7 +3,7 @@
   "env": {
     "DATABASE_URL": "mongodb+srv://aishwarya:aishwarya@onlinestore.2oqhon6.mongodb.net/TestProducts?retryWrites=true&w=majority"
   },
-  "name": "product-backend",
+  "name": "test-product-backend",
   "builds": [
     {
       "src": "src/index.ts",
